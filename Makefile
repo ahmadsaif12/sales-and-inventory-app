@@ -2,8 +2,6 @@
 
 PYTHON := python3
 MANAGE := $(PYTHON) manage.py
-APP_NAME := $(filter-out $@,$(MAKECMDGOALS))
-APPS := $(filter-out $@,$(MAKECMDGOALS))
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -17,16 +15,20 @@ migrate: ## Run database migrations
 makemigrations: ## Create new migrations
 	$(MANAGE) makemigrations
 
-createapp: ## Create a new Django app (usage: make createapp <appname>)
-	$(MANAGE) startapp $(APP_NAME)
+createapp: ## Create a new Django app (usage: make createapp accounts)
+	@$(MANAGE) startapp $(filter-out $@,$(MAKECMDGOALS))
 
-register: ## Register apps in settings & urls (usage: make register APP=accounts)
+register: ## Create and register app (usage: make register APP=accounts)
+	@if [ -z "$(APP)" ]; then \
+		echo "Usage: make register APP=accounts"; \
+		exit 1; \
+	fi
 	$(PYTHON) register_app.py $(APP)
 
 superuser: ## Create a Django superuser
 	$(MANAGE) createsuperuser
 
-createuser: ## Create a new user via Django shell
+createuser: ## Create a default admin user
 	$(MANAGE) shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" 2>/dev/null || echo "User may already exist"
 
 run: ## Run the development server
@@ -44,11 +46,11 @@ collectstatic: ## Collect static files
 check: ## Run Django system checks
 	$(MANAGE) check
 
-lint: ## Run linting (flake8 + isort check)
+lint: ## Run linting
 	flake8 .
 	isort --check-only --diff .
 
-format: ## Auto-format code (black + isort)
+format: ## Auto-format code
 	black .
 	isort .
 
