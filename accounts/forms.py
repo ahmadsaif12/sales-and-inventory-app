@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Customer, Vendor
+from django.contrib.auth.models import User
 
 class CreateUserForm(UserCreationForm):
     email = forms.EmailField()
@@ -15,6 +16,7 @@ class CreateUserForm(UserCreationForm):
         ]
 
 class UserUpdateForm(forms.ModelForm):
+
     class Meta:
         model = User
         fields = [
@@ -23,6 +25,7 @@ class UserUpdateForm(forms.ModelForm):
         ]
 
 class ProfileUpdateForm(forms.ModelForm):
+
     class Meta:
         model = Profile
         fields = [
@@ -33,8 +36,8 @@ class ProfileUpdateForm(forms.ModelForm):
             'profile_picture'
         ]
 
-
 class CustomerForm(forms.ModelForm):
+
     class Meta:
         model = Customer
         fields = [
@@ -75,6 +78,7 @@ class CustomerForm(forms.ModelForm):
 
 
 class VendorForm(forms.ModelForm):
+    
     class Meta:
         model = Vendor
         fields = ['name', 'phone_number', 'address']
