@@ -25,5 +25,6 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('invoice/', include('invoice.urls')),
     path('accounts/', include('accounts.urls')),
-    path('', RedirectView.as_view(pattern_name='dashboard', permanent=False), name='home'),
+    path('dashboard/', RedirectView.as_view(pattern_name='dashboard', permanent=False), name='home'),
+    path('', RedirectView.as_view(pattern_name='dashboard', permanent=False)),
 ]
