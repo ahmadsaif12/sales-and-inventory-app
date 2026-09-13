@@ -6,6 +6,12 @@ from django.views.decorators.http import require_POST
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.contrib.auth.views import LoginView
+from django.contrib import messages
+
+from django.utils.decorators import method_decorator
+
+from django_ratelimit.decorators import ratelimit
 
 from django.views.generic import(
     ListView,
@@ -25,15 +31,37 @@ from .forms import(
 )
 from .tables import ProfileTable
 
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(
+                request,
+                'Your account has been created. Please log in to continue.'
+            )
             return redirect('user-login')
     else:
         form = CreateUserForm()
     return render(request, 'accounts/register.html', {'form': form})
+
+class RatelimitedLoginView(LoginView):
+    """
+    Django auth LoginView wrapped with IP-based rate limiting.
+    Limits POST attempts to 5 per minute per IP; excess gets a 403.
+    """
+
+    @method_decorator(ratelimit(key='ip', rate='5/m', method='POST', block=True))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            f"Welcome back, {form.get_user().username}! You are now logged in."
+        )
+        return super().form_valid(form)
 
 @login_required
 def profile(request):

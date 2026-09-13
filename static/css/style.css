@@ -29,6 +29,14 @@
   --logo-separator-height: 60px;
   --sidebar-item-height: 50px;
   --submenu-item-height: 45px;
+  /* Form / auth theming */
+  --form-primary: #4caf50;
+  --form-primary-dark: #2e7d32;
+  --form-primary-soft: rgba(76, 175, 80, 0.14);
+  --form-border: #d1d5db;
+  --form-text: #1f2937;
+  --form-muted: #9ca3af;
+  --form-bg: #fafbfc;
 }
 
 /* General styles */
@@ -222,4 +230,588 @@ a {
 
 .navbar .navbar-nav > li > a > i {
   font-size: 18px;
+}
+
+/* =========================================================
+   DYNAMIC FORMS & AUTH PAGES
+   ========================================================= */
+
+/* ---- Split-screen auth layout (login / register) ---- */
+.login-page {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Left branding panel */
+.auth-brand-panel {
+  position: relative;
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 52px;
+  overflow: hidden;
+  color: #ffffff;
+  background: linear-gradient(150deg, #2e7d32 0%, #3e9446 48%, #4caf50 100%);
+}
+
+.auth-brand-panel::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  top: -110px;
+  left: -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.auth-brand-panel::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  bottom: -180px;
+  right: -160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 70, 30, 0.32) 0%, rgba(20, 70, 30, 0) 70%);
+}
+
+.brand-panel-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  text-align: left;
+}
+
+.brand-panel-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 44px;
+}
+
+.brand-panel-logo .brand-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.brand-panel-logo .brand-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.brand-panel-logo .brand-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+}
+
+.auth-brand-panel h2 {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.32;
+  margin: 0 0 16px;
+  letter-spacing: -0.5px;
+}
+
+.auth-brand-panel .lead {
+  font-size: 16px;
+  line-height: 1.65;
+  opacity: 0.88;
+  margin: 0 0 32px;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 44px;
+}
+
+.feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 15px;
+  margin-bottom: 16px;
+  opacity: 0.92;
+}
+
+.feature-list .fi-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9px;
+}
+
+.brand-panel-illustration {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Right form panel */
+.auth-form-panel {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 52px;
+  background: #f6f9f7;
+}
+
+.auth-form-panel .form {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 42px 40px 38px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(31, 41, 55, 0.07), 0 24px 60px rgba(31, 41, 55, 0.08);
+  animation: formEntrance 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.auth-form-panel .form:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(31, 41, 55, 0.09), 0 30px 70px rgba(31, 41, 55, 0.1);
+}
+
+@keyframes formEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- Auth card contents ---- */
+.auth-form-panel .form .form-brand {
+  margin-bottom: 22px;
+}
+
+.auth-form-panel .form .form-brand .navbar-brand {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.auth-form-panel .form label {
+  display: block;
+  text-align: left;
+  margin: 4px 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--form-muted);
+  transition: color 0.3s ease;
+}
+
+.auth-form-panel .form input {
+  outline: 0;
+  width: 100%;
+  height: 48px;
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--form-text);
+  background: #f7f9f8;
+  border: 1.5px solid var(--form-border);
+  border-radius: 10px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-form-panel .form input:hover {
+  background: #f2f5f3;
+  border-color: #b6bdc9;
+}
+
+.auth-form-panel .form input:focus {
+  background: #ffffff;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 4px var(--form-primary-soft);
+}
+
+.auth-form-panel .form button {
+  text-transform: uppercase;
+  outline: 0;
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  background-size: 150% 150%;
+  width: 100%;
+  height: 48px;
+  border: 0;
+  margin-top: 6px;
+  padding: 0 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(76, 175, 80, 0.35);
+  transition: background-position 0.4s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.auth-form-panel .form button:hover {
+  background-position: 100% 100%;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(76, 175, 80, 0.45);
+}
+
+.auth-form-panel .form button:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.35);
+}
+
+.auth-form-panel .form .message {
+  margin: 18px 0 0;
+  color: var(--form-muted);
+  font-size: 13px;
+}
+
+.auth-form-panel .form .message a {
+  position: relative;
+  color: var(--form-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-form-panel .form .message a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--form-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.auth-form-panel .form .message a:hover {
+  color: var(--form-primary-dark);
+}
+
+.auth-form-panel .form .message a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.auth-form-panel .form .text-danger ul,
+.auth-form-panel .form ul.text-danger {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+
+.auth-form-panel .form .form-group {
+  text-align: left;
+}
+
+.auth-form-panel .form .invalid-feedback {
+  display: block;
+  text-align: left;
+  margin: -8px 0 10px;
+  font-size: 12.5px;
+  color: #dc3545;
+}
+
+.auth-form-panel .form .form-group.has-error input {
+  border-color: #dc3545;
+  background: #fef2f2;
+}
+
+.auth-form-panel .form .form-group.has-error input:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.12);
+}
+
+/* ---- App-wide dynamic form controls ---- */
+.form-control {
+  font-size: 0.95rem;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--form-border);
+  border-radius: 10px;
+  background: var(--form-bg);
+  color: var(--form-text);
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:hover {
+  border-color: #b6bdc9;
+  background: #fff;
+}
+
+.form-control:focus {
+  border-color: var(--form-primary);
+  background: #fff;
+  box-shadow: 0 0 0 4px var(--form-primary-soft);
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+select.form-control {
+  cursor: pointer;
+}
+
+/* Labels inside app forms */
+.form-group label,
+.form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 0.4rem;
+}
+
+.float-label {
+  margin-bottom: 1rem;
+}
+
+.float-label label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #4b5563;
+  margin-bottom: 0.35rem;
+}
+
+.float-label input[type="text"],
+.float-label input[type="email"],
+.float-label input[type="number"],
+.float-label select,
+.float-label textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--form-text);
+  background: var(--form-bg);
+  border: 1.5px solid var(--form-border);
+  border-radius: 10px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.float-label input:focus,
+.float-label select:focus,
+.float-label textarea:focus {
+  outline: 0;
+  border-color: var(--form-primary);
+  background: #fff;
+  box-shadow: 0 0 0 4px var(--form-primary-soft);
+}
+
+/* Error / helper lists */
+.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+.errorlist li {
+  color: #dc3545;
+  font-size: 0.85rem;
+}
+
+/* ---- Dynamic buttons across the app ---- */
+.btn {
+  border-radius: 10px;
+  transition: background-position 0.35s ease, transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-primary,
+.btn-success {
+  background-image: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+  background-size: 150% 150%;
+  border: none;
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus {
+  background-position: 100% 100%;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(76, 175, 80, 0.4);
+  border: none;
+}
+
+.btn-primary:active,
+.btn-success:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.btn-outline-success {
+  border-width: 1.5px;
+  color: var(--form-primary-dark);
+  border-color: var(--form-primary);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--form-primary);
+  border-color: var(--form-primary);
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 992px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .auth-brand-panel {
+    padding: 44px 28px;
+  }
+
+  .brand-panel-inner {
+    max-width: 540px;
+  }
+
+  .auth-brand-panel h2 {
+    font-size: 28px;
+  }
+
+  .brand-panel-illustration {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .auth-form-panel {
+    padding: 36px 24px;
+  }
+
+  .feature-list {
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-brand-panel {
+    padding: 36px 20px;
+  }
+
+  .brand-panel-logo {
+    margin-bottom: 32px;
+  }
+
+  .brand-panel-logo .brand-name {
+    font-size: 22px;
+  }
+
+  .auth-brand-panel h2 {
+    font-size: 24px;
+  }
+
+  .auth-brand-panel .lead {
+    font-size: 15px;
+  }
+
+  .feature-list {
+    display: none;
+  }
+
+  .brand-panel-illustration {
+    display: none;
+  }
+
+  .auth-form-panel {
+    padding: 28px 16px;
+  }
+
+  .auth-form-panel .form {
+    padding: 34px 22px;
+  }
+}
+
+/* ---- Toast notifications ---- */
+.toast-stack {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: min(380px, calc(100vw - 40px));
+}
+
+.toast-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  border-left: 4px solid var(--form-primary);
+  box-shadow: 0 8px 24px rgba(31, 41, 55, 0.15);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--form-text);
+  animation: toastIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast-item.toast-error,
+.toast-item.toast-danger {
+  border-left-color: #dc3545;
+}
+
+.toast-item.toast-warning {
+  border-left-color: #f59e0b;
+}
+
+.toast-item.toast-info {
+  border-left-color: #0d6efd;
+}
+
+.toast-item .toast-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.toast-item.hide {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

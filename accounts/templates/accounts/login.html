@@ -1,139 +1,137 @@
-{% load crispy_forms_tags %}{% load static %}
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <title>IMS: Login</title>
   </head>
 <body>
   <div class="login-page">
-    <style>
-    .login-page {
-      width: 360px;
-      padding: 8% 0 0;
-      margin: auto;
-    }
-    .form {
-      position: relative;
-      z-index: 1;
-      background: #FFFFFF;
-      max-width: 360px;
-      margin: 0 auto 100px;
-      padding: 45px;
-      text-align: center;
-      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    }
-    .form input {
-      outline: 0;
-      background: #bbffbb;
-      width: 100%;
-      border: 0;
-      margin: 0 0 15px;
-      padding: 15px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-    .form button {
-      text-transform: uppercase;
-      outline: 0;
-      background: #4CAF50;
-      width: 100%;
-      border: 0;
-      padding: 15px;
-      color: #FFFFFF;
-      font-size: 14px;
-      -webkit-transition: all 0.3 ease;
-      transition: all 0.3 ease;
-      cursor: pointer;
-    }
-    .form button:hover,.form button:active,.form button:focus {
-      background: #43A047;
-    }
-    .form .message {
-      margin: 15px 0 0;
-      color: #b3b3b3;
-      font-size: 12px;
-    }
-    .form .message a {
-      color: #4CAF50;
-      text-decoration: none;
-    }
-    .form .register-form {
-      display: none;
-    }
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-    .container:before, .container:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-    .container .info {
-      margin: 50px auto;
-      text-align: center;
-    }
-    .container .info h1 {
-      margin: 0 0 15px;
-      padding: 0;
-      font-size: 36px;
-      font-weight: 300;
-      color: #1a1a1a;
-    }
-    .container .info span {
-      color: #4d4d4d;
-      font-size: 12px;
-    }
-    .container .info span a {
-      color: #000000;
-      text-decoration: none;
-    }
-    .container .info span .fa {
-      color: #EF3B3A;
-    }
-    body {
-      background: #76b852; /* fallback for old browsers */
-      background: rgb(141,194,111);
-      background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    </style>
-    <div class="form">
-      <div>
-        <strong class="navbar-brand" style="font-size: 26px;">Inventory<span class="text-warning">ms</span></strong>
-      </div>
-      <div class="text-danger">
-        {% if messages %} {% for message in messages %}
-        <div class="alert alert-{{message.tags}}">
-            {{ message }}
+    <!-- Left branding panel -->
+    <div class="auth-brand-panel">
+      <div class="brand-panel-inner">
+        <div class="brand-panel-logo">
+          <span class="brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 7l8-4 8 4v10l-8 4-8-4V7z" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M4 7l8 4 8-4M12 11v10" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="brand-name">Inventory<span class="text-warning">ms</span></span>
         </div>
-        {% endfor %} {% endif %}
 
-    {% if form.non_field_errors %}
-        <ul>
-            {% for error in form.non_field_errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
+        <h2>Welcome back to your workspace</h2>
+        <p class="lead">
+          Sign in to continue managing your stock, deliveries, staff and customer
+          accounts from a single clean dashboard.
+        </p>
+
+        <ul class="feature-list">
+          <li>
+            <span class="fi-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12l5 5L20 7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Live stock tracking &amp; low-quantity alerts
+          </li>
+          <li>
+            <span class="fi-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12l5 5L20 7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Deliveries, invoices and bills in one workflow
+          </li>
+          <li>
+            <span class="fi-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12l5 5L20 7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Staff roles &amp; customer management built-in
+          </li>
         </ul>
-    {% endif %}
-  </div>
-      <form class="login-form" method="POST">
-        {% csrf_token %}
-        <p>{{ message }}</p>
-        <label>Username</label>
-        <span class="text-danger">{{ form.username.errors }}</span>
-        {{form.username}}
-        <label>Password</label>
-        <span class="text-danger">{{ form.password.errors }}</span>
-        {{form.password}}
-        <button  type="submit" name="button">login</button>
-        <p class="message">Not registered? <a href="{% url 'user-register' %}">Create an account</a></p>
-      </form>
+
+        <svg class="brand-panel-illustration" viewBox="0 0 440 270" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="grnCard" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+              <stop offset="1" stop-color="#eef6f0" stop-opacity="0.95"/>
+            </linearGradient>
+          </defs>
+
+          <!-- big box -->
+          <rect y="128" width="120" height="110" rx="14" fill="url(#grnCard)"/>
+          <rect x="14" y="102" width="92" height="34" rx="9" fill="#ffe29a" fill-opacity="0.95"/>
+          <path d="M0 168 H120" stroke="#2e7d32" stroke-width="2" stroke-opacity="0.16"/>
+          <path d="M0 192 H120" stroke="#2e7d32" stroke-width="2" stroke-opacity="0.16"/>
+
+          <!-- analytics card -->
+          <rect x="176" y="30" width="244" height="172" rx="16" fill="url(#grnCard)"/>
+          <circle cx="200" cy="56" r="6" fill="#4caf50"/>
+          <circle cx="218" cy="56" r="6" fill="#c8e6c9"/>
+          <circle cx="236" cy="56" r="6" fill="#c8e6c9"/>
+          <rect x="196" y="150" width="24" height="30" rx="5" fill="#2e7d32" fill-opacity="0.45"/>
+          <rect x="228" y="124" width="24" height="56" rx="5" fill="#2e7d32" fill-opacity="0.65"/>
+          <rect x="260" y="104" width="24" height="76" rx="5" fill="#1f6b24" fill-opacity="0.9"/>
+          <rect x="292" y="132" width="24" height="48" rx="5" fill="#2e7d32" fill-opacity="0.6"/>
+          <rect x="324" y="112" width="24" height="68" rx="5" fill="#43a047" fill-opacity="0.8"/>
+          <path d="M192 182 H396" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-opacity="0.22"/>
+          <polyline points="208,150 244,128 280,108 316,142 348,120" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- small box -->
+          <rect x="150" y="186" width="66" height="54" rx="10" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="158" y="172" width="50" height="22" rx="6" fill="#ffffff" fill-opacity="0.5"/>
+
+          <!-- check badge -->
+          <circle cx="66" cy="54" r="30" fill="#4caf50" fill-opacity="0.95"/>
+          <path d="M53 55l10 10 16-18" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="auth-form-panel">
+      <div class="form">
+        <div class="form-brand">
+          <strong class="navbar-brand">Inventory<span class="text-warning">ms</span></strong>
+        </div>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="POST">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group{% if field.errors %} has-error{% endif %}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <small class="invalid-feedback d-block">{{ error }}</small>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <button type="submit">Login</button>
+          <p class="message">Not registered? <a href="{% url 'user-register' %}">Create an account</a></p>
+        </form>
+      </div>
     </div>
   </div>
+  {% include 'store/_toasts.html' %}
 </body>
 </html>

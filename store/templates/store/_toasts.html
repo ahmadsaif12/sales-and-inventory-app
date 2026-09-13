@@ -1,0 +1,7 @@
+{% load static %}
+{% if messages %}
+  {% for message in messages %}
+    <span data-toast-message="{{ message|escape }}" data-toast-type="{{ message.tags }}"></span>
+  {% endfor %}
+{% endif %}
+<script src="{% static 'js/toast.js' %}"></script>

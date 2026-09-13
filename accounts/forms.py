@@ -4,7 +4,12 @@ from .models import Profile, Customer, Vendor
 from django.contrib.auth.models import User
 
 class CreateUserForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter email address'
+        })
+    )
 
     class Meta:
         model = User
@@ -14,6 +19,23 @@ class CreateUserForm(UserCreationForm):
             'password1',
             'password2'
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('usable_password', None)
+        self.fields['username'].help_text = ''
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Enter username'
+        })
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Enter password'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Confirm password'
+        })
 
 class UserUpdateForm(forms.ModelForm):
 
