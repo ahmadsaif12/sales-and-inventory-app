@@ -110,6 +110,46 @@ docker compose down
 
 Use `docker compose down -v` only when you intentionally want to remove the local PostgreSQL volume and its data.
 
+## Deploy to Vercel
+
+Vercel detects this Django project directly. It runs the application as a
+serverless function, so never deploy with the local SQLite database: its file
+is not persistent between function invocations. Use a managed PostgreSQL
+database (for example, Vercel Postgres, Neon, or Supabase) instead.
+
+1. Push the project to a Git provider and import the repository at
+   [Vercel](https://vercel.com/new). Vercel will detect the Django framework.
+2. Provision a managed PostgreSQL database and add these **Production**
+   environment variables in **Project Settings → Environment Variables**:
+
+   ```dotenv
+   DJANGO_SECRET_KEY=<a-new-long-random-secret>
+   DEBUG=False
+   DATABASE_URL=postgresql://<user>:<password>@<host>:5432/<database>?sslmode=require
+   ALLOWED_HOSTS=<your-project>.vercel.app,<your-custom-domain>
+   # Only if a separate frontend posts forms to this app:
+   # CSRF_TRUSTED_ORIGINS=https://<your-custom-domain>
+   ```
+
+   Add the generated preview hostname or `.vercel.app` to `ALLOWED_HOSTS` too
+   if you want preview deployments to serve requests.
+3. Apply migrations once against that production database, from a machine that
+   has the same `DATABASE_URL`:
+
+   ```bash
+   python manage.py migrate --noinput
+   ```
+
+4. Deploy from the Vercel dashboard, or authenticate locally and run:
+
+   ```bash
+   npx vercel
+   npx vercel --prod
+   ```
+
+Each push to the connected production branch will deploy automatically. Do not
+put production secrets in `.env` or `vercel.json`; set them in Vercel instead.
+
 ## Main areas and routes
 
 | Area | Primary route | What it provides |
