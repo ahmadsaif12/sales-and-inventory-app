@@ -24,12 +24,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-change-me')
+# Vercel's Django integration conventionally uses DJANGO_SECRET_KEY.  Keep
+# SECRET_KEY as an alias so existing local and container environments continue
+# to work unchanged.
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-change-me'),
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get('ALLOWED_HOSTS', '').split(',')
+    if host.strip()
+]
+
+# Needed only when the app is submitted to from a different trusted origin
+# (for example, a separately hosted frontend or custom domain).
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+    if origin.strip()
+]
 
 
 # Application definition
