@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class RegisterAuthToastsTest(TestCase):
@@ -39,3 +40,28 @@ class RegisterAuthToastsTest(TestCase):
         profile_page = self.client.get('/accounts/profile/')
         html = profile_page.content.decode()
         self.assertIn('Welcome back, testuser', html)
+
+
+class AccountDashboardViewsTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='dashboard-user',
+            password='SafePassword123!',
+        )
+
+    def test_customer_list_requires_authentication(self):
+        response = self.client.get(reverse('customer_list'))
+
+        self.assertRedirects(
+            response,
+            f"{reverse('user-login')}?next={reverse('customer_list')}",
+        )
+
+    def test_customer_list_renders_inside_the_shared_dashboard_shell(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('customer_list'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="app-content"')
+        self.assertContains(response, 'css/style.css')
